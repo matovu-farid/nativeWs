@@ -8,6 +8,10 @@ const wss = new WebSocketServer({server})
 wss.on('headers',(headers,req)=>{
   console.log(headers)
 })
+wss.on('connection',(ws,req)=>{
+  ws.send("Damn I am sending you this messege!!!")
+})
+
 server.listen(8000)
 
 
