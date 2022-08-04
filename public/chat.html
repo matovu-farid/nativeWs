@@ -1,4 +1,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<style>
+  input{
+    width: 100%;
+    height: 35px;
+  }
+</style>
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -10,14 +16,34 @@
           <input type="submit" value="Send!" class="btn btn-primary">
         </div>
       </form>
+      <ul id="messages">
+        <!--This will be populated with js-->
+      </ul>
     </div>
   </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   const socket = io('http://localhost:8000')
-  socket.on('messageFromServer',(dataFromServer)=>{
-    console.log(dataFromServer)
-    socket.emit('messageToServer',{data: "This is from the client"})
+  // socket.on('messageFromServer',(dataFromServer)=>{
+  //   console.log(dataFromServer)
+  //   socket.emit('messageToServer',{data: "This is from the client"})
+  // })
+  const form = document.getElementById('message-form')
+  form.addEventListener('submit',(event)=>{
+    event.preventDefault()
+    console.log('message submitted')
+    const textInput = document.getElementById('user-message')
+    const message = textInput.value;
+    // console.log(message)
+    socket.emit('ChatFormClient',message)
+  })
+  socket.on('ChatFromServer',(msg)=>{
+    console.log(msg)
+    const list = document.getElementById('messages');
+    const listItem = document.createElement('li');
+    listItem.innerText = msg;
+    list.appendChild(listItem);
+
   })
 </script>
