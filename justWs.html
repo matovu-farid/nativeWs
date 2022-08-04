@@ -1,9 +1,7 @@
 <script>
   let ws = new WebSocket('ws://localhost:8000')
   console.log(ws)
-  ws.addEventListener('open',()=>{
-    console.log("I am super excited to connect to you")
-  })
+  ws.onopen = ()=> ws.send("I am super excited to connect to you")
   ws.onmessage = (event)=>{
     console.log(event)
   }

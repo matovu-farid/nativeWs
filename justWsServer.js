@@ -10,6 +10,7 @@ wss.on('headers',(headers,req)=>{
 })
 wss.on('connection',(ws,req)=>{
   ws.send("Damn I am sending you this messege!!!")
+  ws.onmessage = (event)=>{console.log(event.data)}
 })
 
 server.listen(8000)
